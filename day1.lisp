@@ -4,7 +4,7 @@
   (split-sequence nil (mapcar (lambda (str)
                                 (parse-integer str :junk-allowed t))
                               (uiop:read-file-lines
-                               (asdf:system-relative-pathname :advent2022 "inputs/day1-test")))))
+                               (asdf:system-relative-pathname :advent2022 "inputs/day1")))))
 
 (defun sum (lst)
   (reduce #'+ lst))
