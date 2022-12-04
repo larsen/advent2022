@@ -2,7 +2,9 @@
 
 (defun read-strategy-book ()
   (mapcar (lambda (l)
-            (mapcar #'alexandria:symbolicate (split-sequence #\Space l)))
+            (mapcar (lambda (str)
+                      (intern (string-upcase str) :advent2022))
+                    (split-sequence #\Space l)))
           (uiop:read-file-lines (asdf:system-relative-pathname :advent2022 "inputs/day2"))))
 
 (defgeneric game-score (player1-shape player2-shape))
