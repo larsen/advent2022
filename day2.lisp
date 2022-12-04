@@ -5,8 +5,8 @@
             (mapcar #'alexandria:symbolicate (split-sequence #\Space l)))
           (uiop:read-file-lines (asdf:system-relative-pathname :advent2022 "inputs/day2"))))
 
-(defgeneric game-score (player1-shape) (player2-shape))
-(defgeneric shape-for-outcome (player1-shape) (outcome))
+(defgeneric game-score (player1-shape player2-shape))
+(defgeneric shape-for-outcome (player1-shape outcome))
 
 ;; A for Rock, B for Paper, and C for Scissors.
 ;; X for Rock, Y for Paper, and Z for Scissors
