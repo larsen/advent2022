@@ -1,6 +1,5 @@
 (in-package #:advent2022)
 
-
 (defun transpose (lst)
   (apply #'mapcar #'list lst))
 
@@ -24,10 +23,10 @@
                                          collect (coerce (format nil "~35a" cc) 'list)))))
      ;; Parse moves
      (loop for m-raw in moves-raw
-                ;; move 1 from 2 to 1
-                collect (register-groups-bind ((#'parse-integer qty start end))
-                            ("move (\\d+) from (\\d+) to (\\d+)" m-raw)
-                          (list qty start end))))))
+           ;; move 1 from 2 to 1
+           collect (register-groups-bind ((#'parse-integer qty start end))
+                       ("move (\\d+) from (\\d+) to (\\d+)" m-raw)
+                     (list qty start end))))))
 
 
 (defun day5/solution1 ()
