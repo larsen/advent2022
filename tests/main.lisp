@@ -15,3 +15,7 @@
 (define-test day4
   (is = (day4/solution1) 573)
   (is = (day4/solution2) 867))
+
+(define-test day5
+  (is string= (day5/solution1) "WHTLRMZRC")
+  (is string= (day5/solution2) "GMPMLWNMG"))

@@ -12,4 +12,7 @@
            day3/solution2
 
            day4/solution1
-           day4/solution2))
+           day4/solution2
+
+           day5/solution1
+           day5/solution2))
