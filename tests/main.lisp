@@ -19,3 +19,7 @@
 (define-test day5
   (is string= (day5/solution1) "WHTLRMZRC")
   (is string= (day5/solution2) "GMPMLWNMG"))
+
+(define-test day6
+  (is = (day6/solution1) 1658)
+  (is = (day6/solution2) 2260))
