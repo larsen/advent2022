@@ -1,8 +1,5 @@
 (in-package #:advent2022)
 
-(defun transpose (lst)
-  (apply #'mapcar #'list lst))
-
 (defun read-crates-config-and-moves ()
   (destructuring-bind (crates-config-raw moves-raw)
       (split-sequence "" (uiop:read-file-lines

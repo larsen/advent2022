@@ -6,9 +6,6 @@
                               (uiop:read-file-lines
                                (asdf:system-relative-pathname :advent2022 "inputs/day1")))))
 
-(defun sum (lst)
-  (reduce #'+ lst))
-
 (defun day1/solution1 ()
   (loop for cg in (read-calories-groups)
         maximizing (sum cg)))

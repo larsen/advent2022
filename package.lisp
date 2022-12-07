@@ -18,4 +18,7 @@
            day5/solution2
 
            day6/solution1
-           day6/solution2))
+           day6/solution2
+
+           day7/solution1
+           day7/solution2))

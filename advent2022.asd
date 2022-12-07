@@ -7,12 +7,14 @@
   :serial t
   :depends-on (#:alexandria #:cl-ppcre #:split-sequence #:sketch)
   :components ((:file "package")
-               (:file "day1")
+               (:file "utils")
+               (:file "day1" :depends-on ("utils"))
                (:file "day2")
                (:file "day3")
                (:file "day4")
-               (:file "day5")
-               (:file "day6"))
+               (:file "day5" :depends-on ("utils"))
+               (:file "day6")
+               (:file "day7" :depends-on ("utils")))
   :in-order-to ((test-op (test-op #:advent2022/test))))
 
 (asdf:defsystem #:advent2022/test
