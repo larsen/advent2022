@@ -14,7 +14,8 @@
                (:file "day4")
                (:file "day5" :depends-on ("utils"))
                (:file "day6")
-               (:file "day7" :depends-on ("utils")))
+               (:file "day7" :depends-on ("utils"))
+               (:file "day8"))
   :in-order-to ((test-op (test-op #:advent2022/test))))
 
 (asdf:defsystem #:advent2022/test
