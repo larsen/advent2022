@@ -25,4 +25,7 @@
 
            read-forest
            day8/solution1
-           day8/solution2))
+           day8/solution2
+
+           day9/solution1
+           day9/solution2))
