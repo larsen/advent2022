@@ -74,7 +74,7 @@
 
 (defun day9/solution2 ()
   (let* ((motions (read-motions))
-         (knots (loop repeat 2
+         (knots (loop repeat 10
                       collect (make-vektor :x 0 :y 0)))
          (tail-positions (list (car knots))))
     (loop for (dir . steps) in motions

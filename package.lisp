@@ -28,4 +28,7 @@
            day8/solution2
 
            day9/solution1
-           day9/solution2))
+           day9/solution2
+
+           day10/solution1
+           day10/solution2))
