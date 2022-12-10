@@ -17,3 +17,5 @@
 **[Day 8](day8.lisp)**: —
 
 **[Day 9](day9.lisp)**: Using structs to model the problem
+
+**[Day 10](day10.lisp)**: Using structs to model the problem
