@@ -39,3 +39,6 @@
 (define-test day10
   (is = (day10/solution1) 14860)
   (is string= (day10/solution2) "RGZEHURK"))
+
+(define-test day11
+  (is = (day11/solution1) 50830))
