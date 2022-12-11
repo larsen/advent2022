@@ -89,5 +89,54 @@
                                        (mapcar #'monkey-items-inspected team) #'>)
                                       0 2))))))
 
+(defun n->list-of-remainder (n team)
+  (loop for m in team
+        collect (rem n (monkey-divisibility-test m))))
+
+(defun r+ (n1r n2r team)
+  (loop for n1 in n1r
+        for n2 in n2r
+        for m in team
+        collect (rem (+ n1 n2) (monkey-divisibility-test m))))
+
+(defun r* (n1r n2r team)
+  (loop for n1 in n1r
+        for n2 in n2r
+        for m in team
+        collect (rem (* n1 n2) (monkey-divisibility-test m))))
+
+(defmethod apply-operation-on-remainder (item (m monkey) team)
+  (with-slots (operation-f operation-operand) m
+    (funcall (if (string= "+" operation-f)
+                 #'r+
+                 #'r*)
+             item
+             (if (string= "old" operation-operand)
+                 item
+                 (n->list-of-remainder (parse-integer operation-operand)
+                                       team))
+             team)))
+
 (defun day11/solution2 ()
-  )
+    (let ((team (read-monkeys-team)))
+      (loop for m in team
+            do (setf (monkey-items m)
+                     (mapcar (lambda (n)
+                               (n->list-of-remainder n team))
+                             (monkey-items m))))
+      (loop repeat 10000
+            do (loop for m_counter from 0
+                     for m in team
+                     do (loop while (monkey-items m)
+                              for item = (pop (monkey-items m))
+                              do (incf (monkey-items-inspected m))
+                                 (setf item (apply-operation-on-remainder item m team))
+                                 (if (zerop (nth m_counter item))
+                                     (throw-item item (nth (monkey-test-true-dest m)
+                                                           team))
+                                     (throw-item item (nth (monkey-test-false-dest m)
+                                                           team)))))
+            finally (return (apply #'* (subseq
+                                        (sort
+                                         (mapcar #'monkey-items-inspected team) #'>)
+                                        0 2))))))

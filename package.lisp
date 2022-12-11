@@ -33,4 +33,5 @@
            day10/solution1
            day10/solution2
 
-           day11/solution1))
+           day11/solution1
+           day11/solution2))

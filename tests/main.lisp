@@ -41,4 +41,5 @@
   (is string= (day10/solution2) "RGZEHURK"))
 
 (define-test day11
-  (is = (day11/solution1) 50830))
+  (is = (day11/solution1) 50830)
+  (is = (day11/solution2) 14399640002))
