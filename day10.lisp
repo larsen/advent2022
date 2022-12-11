@@ -20,7 +20,7 @@
                 (rem (- cycle 1) 40))
           #\#)))
 
-(defmethod advance-and-sample ((d elves-device))
+(defmethod tick ((d elves-device))
   (with-slots (cycle reg-x samplings) d
     (incf cycle)
 
@@ -51,11 +51,11 @@
   (loop for (opcode param) in (elves-device-program d)
 
         when (string= "noop" opcode)
-          do (advance-and-sample d)
+          do (tick d)
 
         when (string= "addx" opcode)
-          do (advance-and-sample d)
-             (advance-and-sample d)
+          do (tick d)
+             (tick d)
              (incf (elves-device-reg-x d)
                    (parse-integer param))))
 
