@@ -1,15 +1,5 @@
 (in-package #:advent2022)
 
-
-;; Monkey 0:
-;;   Starting items: 79, 98
-;;   Operation: new = old * 19
-;;   Test: divisible by 23
-;;     If true: throw to monkey 2
-;;     If false: throw to monkey 3
-
-;; 10605
-
 (defstruct monkey
   (identifier)
   (items '())
