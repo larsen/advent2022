@@ -1,5 +1,7 @@
 (in-package #:advent2022)
 
+(defparameter infinity most-positive-fixnum)
+
 (defun sum (lst)
   (reduce #'+ lst))
 
