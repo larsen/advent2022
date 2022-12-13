@@ -1,12 +1,11 @@
 (in-package #:advent2022)
 
 (defun read-height-map ()
-  (let ((map-raw (uiop:read-file-lines (asdf:system-relative-pathname :advent2022 "inputs/day12"))))
+  (let ((map-raw (uiop:read-file-lines (asdf:system-relative-pathname :advent2022 "inputs/day12-test"))))
     (make-array (list (length map-raw)
                       (length (car map-raw)))
-                :initial-contents (mapcar (lambda (str)
-                                            (mapcar (lambda (s)
-                                                      (first (coerce s 'list))) (split "" str)))
+                :initial-contents (mapcar (lambda (s)
+                                            (coerce s 'list))
                                           map-raw))))
 
 (defun dijkstra (map &key (start #\S)
