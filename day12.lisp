@@ -25,14 +25,10 @@
              (let ((res (loop with min-dist = infinity
                               with min-node = nil
                               for node in non-visited-nodes
-                              when (<= (aref dists
-                                             (car node)
-                                             (cdr node))
+                              when (<= (aref dists (car node) (cdr node))
                                        min-dist)
                                 do (setf min-node node
-                                         min-dist (aref dists
-                                                        (car node)
-                                                        (cdr node)))
+                                         min-dist (aref dists (car node) (cdr node)))
                               finally (return min-node))))
                (setf non-visited-nodes (remove res non-visited-nodes))
                res))
@@ -49,12 +45,12 @@
                                       (elevation node map)))
                      collect candidate)))
 
+      ;; Dijkstra
       (loop for r from 0 below (first shape)
             do (loop for c from 0 below (second shape)
                      when (char= start (aref map r c))
                        do (setf (aref dists r c) 0)))
 
-      ;; Dijkstra
       (loop while non-visited-nodes
             do (loop with u = (extract-min-dist-node)
                      for v in (adjacents u valid-p)
