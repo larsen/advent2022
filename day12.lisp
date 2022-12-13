@@ -78,16 +78,15 @@
 
 (defun day12/solution2 ()
   (let* ((map (read-height-map))
-         (shape (array-dimensions map)))
-    (multiple-value-bind (cost-to-goal dists)
-        (shortest-path map :start #\E
-                           :goal #\S
-                           :valid-p (lambda (elev-dest elev-src)
-                                      (>= (- elev-dest elev-src) -1)))
-      (loop with m = infinity
-            for r from 0 below (first shape)
-            do (loop for c from 0 below (second shape)
-                     when (char= #\a (aref map r c))
-                       do (if (< (aref dists r c) m )
-                              (setf m (aref dists r c))) )
-            finally (return m)))))
+         (shape (array-dimensions map))
+         (dists (nth-value 1 (shortest-path map :start #\E
+                                           :goal #\S
+                                           :valid-p (lambda (elev-dest elev-src)
+                                                      (>= (- elev-dest elev-src) -1))))))
+    (loop with m = infinity
+          for r from 0 below (first shape)
+          do (loop for c from 0 below (second shape)
+                   when (char= #\a (aref map r c))
+                     do (if (< (aref dists r c) m )
+                            (setf m (aref dists r c))) )
+          finally (return m))))
