@@ -55,7 +55,7 @@
             for counter from 0
             for grain = '(500 0)
             for grain-rest = nil
-            do (loop while (not grain-rest)
+            do (loop until grain-rest
                      ;; See in what directions we can go
                      for dest = (loop for (dx dy) in '((0 1) (-1 1) (1 1))
                                       for %dest = (list (+ dx (first grain)) (+ dy (second grain)))
@@ -101,7 +101,7 @@
             for counter from 1
             for grain = '(500 0)
             for grain-rest = nil
-            do (loop while (not grain-rest)
+            do (loop until grain-rest
                      for dest = (loop for (dx dy) in '((0 1) (-1 1) (1 1))
                                       for %dest = (list (+ dx (first grain)) (+ dy (second grain)))
                                       when (valid-and-empty %dest cave)
