@@ -87,36 +87,41 @@
 
 (defun day14/solution2 ()
   (let* ((cave-scan (read-cave-scan))
-         (floor-level (+ 2 (apply #'max (mapcar #'second (loop for wall in cave-scan
-                                                               append wall)))))
+         (floor-level (+ 2 (apply #'max (mapcar #'second
+                                                (loop for wall in cave-scan
+                                                      append wall)))))
          (cave-shape '(1200 1200))
          (cave (make-array cave-shape :initial-element :empty))
          (cave (setup-rocks-in-cave cave cave-scan)))
 
-    (block :10
-      (loop for counter from 1
-            for grain = '(500 0)
-            for grain-rest = nil
-            do (loop while (not grain-rest)
-                     for dest = (loop for (dx dy) in '((0 1) (-1 1) (1 1))
-                                      when (and
-                                            (< (+ dy (second grain)) floor-level)
-                                            (eq :empty (aref cave
-                                                             (+ dy (second grain))
-                                                             (+ dx (first grain)))))
-                                        return (list (+ dx (first grain))
-                                                     (+ dy (second grain)))
-                                      finally (return grain))
-                     when (and (= 500 (first dest))
-                               (= 0 (second dest)))
-                       do (return-from :10 counter)
+    (loop with reached-the-top
+          until reached-the-top
+          for counter from 1
+          for grain = '(500 0)
+          for grain-rest = nil
+          do (loop while (not grain-rest)
+                   for dest = (loop for (dx dy) in '((0 1) (-1 1) (1 1))
+                                    when (and
+                                          (< (+ dy (second grain)) floor-level)
+                                          (eq :empty (aref cave
+                                                           (+ dy (second grain))
+                                                           (+ dx (first grain)))))
+                                      return (list (+ dx (first grain))
+                                                   (+ dy (second grain)))
+                                    finally (return grain))
+                   if (and (= 500 (first dest))
+                           (= 0 (second dest)))
+                     do (setf reached-the-top t
+                              grain-rest t)
+                   else
                      do (if (equal dest grain)
                             (progn
                               (setf grain-rest t)
                               (setf (aref cave (second grain) (first grain)) :sand)
                               (signal 'new-grain-of-sand :x (first grain)
                                                          :y (second grain)))
-                            (setf grain dest)))))))
+                            (setf grain dest)))
+          finally (return counter))))
 
 (defun cave-simulation ()
   (let ((m (make-instance 'cave-monitor)))
