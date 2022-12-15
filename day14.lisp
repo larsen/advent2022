@@ -41,39 +41,39 @@
                             do (setf (aref cave (second p1) x) :wall))))
   cave)
 
+
 (defun day14/solution1 ()
   (let* ((cave-scan (read-cave-scan))
          (cave-shape '(1200 600))
          (cave (make-array cave-shape :initial-element :empty))
          (cave (setup-rocks-in-cave cave cave-scan)))
-
-    (block :10
-      (loop for counter from 0
+    (flet ((valid-and-empty (tile-coords cave)
+             (and (array-in-bounds-p cave (second tile-coords) (first tile-coords))
+                  (eq :empty (aref cave (second tile-coords) (first tile-coords))))))
+      (loop with reached-the-abyss = nil
+            until reached-the-abyss
+            for counter from 0
             for grain = '(500 0)
             for grain-rest = nil
             do (loop while (not grain-rest)
                      for dest = (loop for (dx dy) in '((0 1) (-1 1) (1 1))
-                                      when (and
-                                            (array-in-bounds-p cave
-                                                               (+ dy (second grain))
-                                                               (+ dx (first grain)))
-                                            (eq :empty (aref cave
-                                                             (+ dy (second grain))
-                                                             (+ dx (first grain)))))
-                                        return (list (+ dx (first grain))
-                                                     (+ dy (second grain)))
-                                      finally (return grain))
-                     when (not (array-in-bounds-p cave
-                                                  (+ 1 (second dest))
-                                                  (first dest)))
-                       do (return-from :10 counter)
-                     do (if (equal dest grain)
-                            (progn
-                              (setf grain-rest t)
-                              (setf (aref cave (second grain) (first grain)) :sand)
-                              (signal 'new-grain-of-sand :x (first grain)
-                                                         :y (second grain)))
-                            (setf grain dest)))))))
+                                      for %dest = (list (+ dx (first grain)) (+ dy (second grain)))
+                                      when (valid-and-empty %dest cave) return %dest
+                                        finally (return grain))
+                     if (not (array-in-bounds-p cave
+                                                (+ 1 (second dest))
+                                                (first dest)))
+                       do (setf grain-rest t
+                                reached-the-abyss t)
+                     else
+                       do (if (equal dest grain)
+                              (progn
+                                (setf grain-rest t)
+                                (setf (aref cave (second grain) (first grain)) :sand)
+                                (signal 'new-grain-of-sand :x (first grain)
+                                                           :y (second grain)))
+                              (setf grain dest)))
+            finally (return counter)))))
 
 
 (defun day14/solution2 ()
