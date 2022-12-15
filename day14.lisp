@@ -56,17 +56,25 @@
             for grain = '(500 0)
             for grain-rest = nil
             do (loop while (not grain-rest)
+                     ;; See in what directions we can go
                      for dest = (loop for (dx dy) in '((0 1) (-1 1) (1 1))
                                       for %dest = (list (+ dx (first grain)) (+ dy (second grain)))
                                       when (valid-and-empty %dest cave)
                                         return %dest
                                       finally (return grain))
+                     ;; If the tentative destination is out of bounds,
+                     ;; we reached the "Abyss"
                      if (not (array-in-bounds-p cave
                                                 (+ 1 (second dest))
                                                 (first dest)))
                        do (setf grain-rest t
                                 reached-the-abyss t)
                      else
+                       ;; Otherwise, if the only available destination
+                       ;; if staying still, the grain of sand reached its
+                       ;; state of rest, and we can proceed with a new one:
+                       ;; we place the grain of sand, and notify external handlers
+                       ;; with a message
                        do (if (equal dest grain)
                               (progn
                                 (setf grain-rest t)
