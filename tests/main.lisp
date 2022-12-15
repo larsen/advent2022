@@ -48,10 +48,10 @@
   (is = (day12/solution1) 330)
   (is = (day12/solution2) 321))
 
-;; (define-test day13
-;;   (is = (day13/solution1) 5366)
-;;   (is = (day13/solution2) 23391))
+(define-test day13
+  (skip "Unstable" (is = (day13/solution1) 5366))
+  (skip "Unstable" (is = (day13/solution2) 23391)))
 
 (define-test day14
-  (is = (day14/solution1) 1133)
-  (is = (day14/solution2) 27566))
+  (skip "WIP" (is = (day14/solution1) 1133))
+  (skip "WIP" (is = (day14/solution2) 27566)))
