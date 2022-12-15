@@ -53,5 +53,5 @@
   (skip "Unstable" (is = (day13/solution2) 23391)))
 
 (define-test day14
-  (skip "WIP" (is = (day14/solution1) 1133))
-  (skip "WIP" (is = (day14/solution2) 27566)))
+  (is = (day14/solution1) 1133)
+  (is = (day14/solution2) 27566))
