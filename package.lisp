@@ -1,7 +1,7 @@
 ;;;; package.lisp
 
 (defpackage #:advent2022
-  (:use #:cl #:split-sequence #:cl-ppcre)
+  (:use #:cl #:split-sequence #:cl-ppcre #:sketch)
   (:export day1/solution1
            day1/solution2
 
@@ -40,4 +40,7 @@
            day12/solution2
 
            day13/solution1
-           day13/solution2))
+           day13/solution2
+
+           day14/solution1
+           day14/solution2))
