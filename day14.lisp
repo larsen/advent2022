@@ -16,19 +16,6 @@
           do (rect (* 2 (car g)) (* 2 (cdr g)) 2 2))))
 
 
-(defun cave-simulation ()
-  (let ((m (make-instance 'cave-monitor)))
-    (handler-bind ((new-grain-of-sand (lambda (g)
-                                        (push (cons (grain-x g)
-                                                    (grain-y g))
-                                              (cave-monitor-grains m))
-                                        (sleep 0.05))))
-      (day14/solution2))))
-
-
-
-
-
 (defun read-cave-scan ()
   (loop for l in (uiop:read-file-lines
                   (asdf:system-relative-pathname :advent2022 "inputs/day14"))
@@ -40,22 +27,25 @@
   ((x :initarg :x :accessor grain-x)
    (y :initarg :y :accessor grain-y)))
 
+(defun setup-rocks-in-cave (cave cave-scan)
+  (loop for wall in cave-scan
+        do (loop for idx from 1 below (length wall)
+                 for p1 = (nth (- idx 1) wall)
+                 for p2 = (nth idx wall)
+                 when (= (first p1) (first p2))
+                   do (loop for y from (min (second p1) (second p2)) to (max (second p1) (second p2))
+                            do (setf (aref cave y (first p1)) :wall))
+
+                 when (= (second p1) (second p2))
+                   do (loop for x from (min (first p1) (first p2)) to (max (first p1) (first p2))
+                            do (setf (aref cave (second p1) x) :wall))))
+  cave)
+
 (defun day14/solution1 ()
   (let* ((cave-scan (read-cave-scan))
          (cave-shape '(1200 600))
-         (cave (make-array cave-shape :initial-element :empty)))
-
-    (loop for wall in cave-scan
-          do (loop for idx from 1 below (length wall)
-                   for p1 = (nth (- idx 1) wall)
-                   for p2 = (nth idx wall)
-                   when (= (first p1) (first p2))
-                     do (loop for y from (min (second p1) (second p2)) to (max (second p1) (second p2))
-                              do (setf (aref cave y (first p1)) :wall))
-
-                   when (= (second p1) (second p2))
-                     do (loop for x from (min (first p1) (first p2)) to (max (first p1) (first p2))
-                              do (setf (aref cave (second p1) x) :wall))))
+         (cave (make-array cave-shape :initial-element :empty))
+         (cave (setup-rocks-in-cave cave cave-scan)))
 
     (block :10
       (loop for counter from 0
@@ -91,20 +81,11 @@
          (floor-level (+ 2 (apply #'max (mapcar #'second (loop for wall in cave-scan
                                                                append wall)))))
          (cave-shape '(1200 1200))
-         (cave (make-array cave-shape :initial-element :empty)))
+         (cave (make-array cave-shape :initial-element :empty))
+         (cave (setup-rocks-in-cave cave cave-scan)))
+
     (apply #'max (mapcar #'second (loop for wall in cave-scan
                                         append wall)))
-    (loop for wall in cave-scan
-          do (loop for idx from 1 below (length wall)
-                   for p1 = (nth (- idx 1) wall)
-                   for p2 = (nth idx wall)
-                   when (= (first p1) (first p2))
-                     do (loop for y from (min (second p1) (second p2)) to (max (second p1) (second p2))
-                              do (setf (aref cave y (first p1)) :wall))
-
-                   when (= (second p1) (second p2))
-                     do (loop for x from (min (first p1) (first p2)) to (max (first p1) (first p2))
-                              do (setf (aref cave (second p1) x) :wall))))
 
     (block :10
       (loop for counter from 1
@@ -131,6 +112,11 @@
                                                          :y (second grain)))
                             (setf grain dest)))))))
 
-
-(defun day14/solution2 ()
-  )
+(defun cave-simulation ()
+  (let ((m (make-instance 'cave-monitor)))
+    (handler-bind ((new-grain-of-sand (lambda (g)
+                                        (push (cons (grain-x g)
+                                                    (grain-y g))
+                                              (cave-monitor-grains m))
+                                        (sleep 0.05))))
+      (day14/solution2))))
