@@ -58,8 +58,9 @@
             do (loop while (not grain-rest)
                      for dest = (loop for (dx dy) in '((0 1) (-1 1) (1 1))
                                       for %dest = (list (+ dx (first grain)) (+ dy (second grain)))
-                                      when (valid-and-empty %dest cave) return %dest
-                                        finally (return grain))
+                                      when (valid-and-empty %dest cave)
+                                        return %dest
+                                      finally (return grain))
                      if (not (array-in-bounds-p cave
                                                 (+ 1 (second dest))
                                                 (first dest)))
