@@ -1,5 +1,12 @@
 (in-package #:advent2022)
 
+(defun read-cave-scan ()
+  (loop for l in (uiop:read-file-lines
+                  (asdf:system-relative-pathname :advent2022 "inputs/day14"))
+        collect (mapcar (lambda (s)
+                          (mapcar #'parse-integer (split "," s)))
+                        (split " -> " l))))
+
 (defsketch cave-monitor ((grains '())
                          (cave-scan (read-cave-scan))
                          (width 1200)
@@ -14,14 +21,6 @@
   (with-pen (make-pen :stroke (rgb 1 0 0))
     (loop for g in grains
           do (rect (* 2 (car g)) (* 2 (cdr g)) 2 2))))
-
-
-(defun read-cave-scan ()
-  (loop for l in (uiop:read-file-lines
-                  (asdf:system-relative-pathname :advent2022 "inputs/day14"))
-        collect (mapcar (lambda (s)
-                          (mapcar #'parse-integer (split "," s)))
-                        (split " -> " l))))
 
 (define-condition new-grain-of-sand ()
   ((x :initarg :x :accessor grain-x)
@@ -40,7 +39,6 @@
                    do (loop for x from (min (first p1) (first p2)) to (max (first p1) (first p2))
                             do (setf (aref cave (second p1) x) :wall))))
   cave)
-
 
 (defun day14/solution1 ()
   (let* ((cave-scan (read-cave-scan))
@@ -102,16 +100,21 @@
             for grain = '(500 0)
             for grain-rest = nil
             do (loop until grain-rest
+                     ;; See in what directions we can go
                      for dest = (loop for (dx dy) in '((0 1) (-1 1) (1 1))
                                       for %dest = (list (+ dx (first grain)) (+ dy (second grain)))
                                       when (valid-and-empty %dest cave)
                                         return %dest
                                       finally (return grain))
-                     if (and (= 500 (first dest))
-                             (= 0 (second dest)))
+                     ;; If we're forced to stay where the sand "faucet" is
+                     ;; we reached the top and we must stop
+                     if (equal dest '(500 0))
                        do (setf reached-the-top t
                                 grain-rest t)
                      else
+                       ;; Otherwise, if the only available destination
+                       ;; if staying still, the grain of sand reached its
+                       ;; state of rest, same as before
                        do (if (equal dest grain)
                               (progn
                                 (setf grain-rest t)
