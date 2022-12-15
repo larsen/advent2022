@@ -93,9 +93,6 @@
          (cave (make-array cave-shape :initial-element :empty))
          (cave (setup-rocks-in-cave cave cave-scan)))
 
-    (apply #'max (mapcar #'second (loop for wall in cave-scan
-                                        append wall)))
-
     (block :10
       (loop for counter from 1
             for grain = '(500 0)
