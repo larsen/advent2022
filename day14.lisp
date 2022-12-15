@@ -123,9 +123,9 @@
 
 (defun cave-simulation ()
   (let ((m (make-instance 'cave-monitor)))
-    (handler-bind ((new-grain-of-sand (lambda (g)
-                                        (push (cons (grain-x g)
-                                                    (grain-y g))
-                                              (cave-monitor-grains m))
-                                        (sleep 0.05))))
+    (handler-bind ((new-grain-of-sand
+                     (lambda (g)
+                       (push (cons (grain-x g) (grain-y g))
+                             (cave-monitor-grains m))
+                       (sleep 0.05))))
       (day14/solution2))))
