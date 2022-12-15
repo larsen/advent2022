@@ -50,7 +50,7 @@
     (flet ((valid-and-empty (tile-coords cave)
              (and (array-in-bounds-p cave (second tile-coords) (first tile-coords))
                   (eq :empty (aref cave (second tile-coords) (first tile-coords))))))
-      (loop with reached-the-abyss = nil
+      (loop with reached-the-abyss
             until reached-the-abyss
             for counter from 0
             for grain = '(500 0)
